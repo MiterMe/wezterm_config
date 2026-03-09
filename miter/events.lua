@@ -4,23 +4,14 @@ local M = {}
 local function rich_text(txt)
 	local name = "MODE: " .. txt:upper() .. "  "
 	-- return wezterm.format({
-	-- 	{ Background = { Color = "#fab387" } }, -- 橙色背景
-	-- 	{ Foreground = { Color = "#1e1e2e" } }, -- 深色文字
-	-- 	{ Text = name or "" },
+	-- { Background = { Color = "#fab387" } }, -- 橙色背景
+	-- { Foreground = { Color = "#1e1e2e" } }, -- 深色文字
+	-- { Text = name or "" },
 	-- })
 	return name
 end
 
 function M.load()
-	wezterm.on("gui-attached", function()
-		local workspace = wezterm.mux.get_active_workspace()
-		for _, window in ipairs(wezterm.mux.all_windows()) do
-			if window:get_workspace() == workspace then
-				window:gui_window():maximize()
-			end
-		end
-	end)
-
 	wezterm.on("update-status", function(window)
 		local name = window:active_key_table()
 		if name then
