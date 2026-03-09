@@ -10,7 +10,7 @@ local M = {}
 
 function M.load(config)
 	config.disable_default_key_bindings = true
-	config.leader = { key = "Space", mods = "SHIFT|ALT", timeout_milliseconds = 2000 }
+	config.leader = { key = "Space", mods = "SHIFT|ALT", timeout_milliseconds = 1000 }
 
 	config.keys = {
 		{ key = "p", mods = "SHIFT|CTRL", action = act.ActivateCommandPalette },
@@ -42,7 +42,7 @@ function M.load(config)
 			action = act.ActivateKeyTable({
 				name = "pane_mode",
 				one_shot = true,
-				timeout_milliseconds = 2000,
+				timeout_milliseconds = 1000,
 			}),
 		},
 		{
@@ -51,7 +51,7 @@ function M.load(config)
 			action = act.ActivateKeyTable({
 				name = "tab_mode",
 				one_shot = true,
-				timeout_milliseconds = 2000,
+				timeout_milliseconds = 1000,
 			}),
 		},
 		{
@@ -60,7 +60,7 @@ function M.load(config)
 			action = act.ActivateKeyTable({
 				name = "workspace_mode",
 				one_shot = true,
-				timeout_milliseconds = 2000,
+				timeout_milliseconds = 1000,
 			}),
 		},
 	}

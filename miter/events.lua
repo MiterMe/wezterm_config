@@ -1,4 +1,5 @@
 local wezterm = require("wezterm")
+local mux = wezterm.mux
 local M = {}
 
 local function rich_text(txt)
@@ -23,6 +24,12 @@ function M.load()
 			return
 		end
 		window:set_right_status("")
+	end)
+
+	wezterm.on("format-window-title", function(tab, pane, tabs, panes, config)
+		local workspace = mux.get_active_workspace()
+		local index = string.format("[%d/%d] ", tab.tab_index + 1, #tabs)
+		return workspace .. " - Tab: " .. index
 	end)
 end
 
