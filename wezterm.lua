@@ -6,13 +6,13 @@ local themes = require("miter.themes")
 local ui = require("miter.ui")
 local fonts = require("miter.fonts")
 -- local events = require("miter.events")
--- local keys = require("miter.keys")
+local keys = require("miter.keys")
 
 -- domains.load(config)
 themes.load(config)
 ui.load(config)
 fonts.load(config)
 -- events.load()
--- keys.load(config)
+keys.load(config)
 
 return config
