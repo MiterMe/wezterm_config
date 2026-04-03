@@ -7,6 +7,7 @@ function M.load(config)
 	config.webgpu_power_preference = "HighPerformance"
 	config.enable_tab_bar = false
 	config.hide_tab_bar_if_only_one_tab = true
+	config.term = "wezterm"
 end
 
 return M

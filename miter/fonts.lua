@@ -42,7 +42,7 @@ local function normal_italic_font(rules)
 					"liga=1",
 				},
 			},
-			{ family = "LXGW WenKai Mono Screen", weight = "Regular", italic = false },
+			{ family = "LXGW WenKai Mono", weight = "Regular", italic = false },
 		}),
 	})
 end
@@ -92,7 +92,7 @@ local function bold_italic_font(rules)
 					"liga=1",
 				},
 			},
-			{ family = "LXGW WenKai Mono Screen", weight = "Bold", italic = false },
+			{ family = "LXGW WenKai Mono", weight = "Bold", italic = false },
 		}),
 	})
 end
