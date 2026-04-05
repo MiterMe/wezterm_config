@@ -1,24 +1,22 @@
 local wezterm = require("wezterm")
 local M = {}
 
+-- 简化的 harfbuzz 特性，只保留必要的连字
+local hb_features = {
+	"calt=1",
+	"ss01=1",
+	"ss02=1",
+	"ss03=1",
+	"ss07=1",
+	"ss08=1",
+	"ss09=1",
+	"liga=1",
+}
+
 local function normal_font(config)
 	config.font = wezterm.font_with_fallback({
-		{
-			family = "Monaspace Argon",
-			weight = "Regular",
-			italic = false,
-			harfbuzz_features = {
-				"calt=1",
-				"ss01=1",
-				"ss02=1",
-				"ss03=1",
-				"ss07=1",
-				"ss08=1",
-				"ss09=1",
-				"liga=1",
-			},
-		},
-		{ family = "MiSans", weight = "Regular", italic = false },
+		{ family = "Monaspace Argon", weight = "Regular", harfbuzz_features = hb_features },
+		{ family = "MiSans", weight = "Regular" },
 	})
 end
 
@@ -27,22 +25,8 @@ local function normal_italic_font(rules)
 		intensity = "Normal",
 		italic = true,
 		font = wezterm.font_with_fallback({
-			{
-				family = "Monaspace Xenon",
-				weight = "Regular",
-				italic = false,
-				harfbuzz_features = {
-					"calt=1",
-					"ss01=1",
-					"ss02=1",
-					"ss03=1",
-					"ss07=1",
-					"ss08=1",
-					"ss09=1",
-					"liga=1",
-				},
-			},
-			{ family = "LXGW WenKai Mono", weight = "Regular", italic = false },
+			{ family = "Monaspace Xenon", weight = "Regular", harfbuzz_features = hb_features },
+			{ family = "LXGW WenKai Mono", weight = "Regular" },
 		}),
 	})
 end
@@ -52,22 +36,8 @@ local function bold_font(rules)
 		intensity = "Bold",
 		italic = false,
 		font = wezterm.font_with_fallback({
-			{
-				family = "Monaspace Argon",
-				weight = "Bold",
-				italic = false,
-				harfbuzz_features = {
-					"calt=1",
-					"ss01=1",
-					"ss02=1",
-					"ss03=1",
-					"ss07=1",
-					"ss08=1",
-					"ss09=1",
-					"liga=1",
-				},
-			},
-			{ family = "MiSans", weight = "Bold", italic = false },
+			{ family = "Monaspace Argon", weight = "Bold", harfbuzz_features = hb_features },
+			{ family = "MiSans", weight = "Bold" },
 		}),
 	})
 end
@@ -77,22 +47,8 @@ local function bold_italic_font(rules)
 		intensity = "Bold",
 		italic = true,
 		font = wezterm.font_with_fallback({
-			{
-				family = "Monaspace Xenon",
-				weight = "Bold",
-				italic = false,
-				harfbuzz_features = {
-					"calt=1",
-					"ss01=1",
-					"ss02=1",
-					"ss03=1",
-					"ss07=1",
-					"ss08=1",
-					"ss09=1",
-					"liga=1",
-				},
-			},
-			{ family = "LXGW WenKai Mono", weight = "Bold", italic = false },
+			{ family = "Monaspace Xenon", weight = "Bold", harfbuzz_features = hb_features },
+			{ family = "LXGW WenKai Mono", weight = "Bold" },
 		}),
 	})
 end

@@ -9,10 +9,7 @@ function M.load(config)
 
 	-- === 显示性能优化 ===
 	config.max_fps = 120
-	config.animation_fps = 1
-	config.cursor_blink_rate = 0
-	config.cursor_blink_ease_in = "Constant"
-	config.cursor_blink_ease_out = "Constant"
+	config.animation_fps = 120
 
 	-- === 字体渲染性能 ===
 	config.freetype_load_target = "Light"
@@ -22,7 +19,6 @@ function M.load(config)
 	config.enable_tab_bar = false
 	config.hide_tab_bar_if_only_one_tab = true
 	config.enable_scroll_bar = false
-	config.window_decorations = "RESIZE"
 	config.use_fancy_tab_bar = false
 
 	-- === 滚动缓冲优化 ===
@@ -33,8 +29,14 @@ function M.load(config)
 	config.term = "wezterm"
 
 	-- === 禁用不必要效果 ===
-	config.enable_kitty_graphics = false
-	config.enable_wayland_client_side_decorations = false
+	config.audible_bell = "Disabled"
+	config.visual_bell = { fade_in_duration_ms = 0, fade_out_duration_ms = 0 }
+
+	-- === 性能微调 ===
+	config.line_height = 1.0
+	config.cell_width = 1.0
+	config.bold_brightens_ansi_colors = false
+	config.enable_kitty_keyboard = false
 end
 
 return M
