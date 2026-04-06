@@ -11,10 +11,6 @@ function M.load(config)
 	config.max_fps = 120
 	config.animation_fps = 120
 
-	-- === 字体渲染性能 ===
-	config.freetype_load_target = "Light"
-	config.freetype_render_target = "HorizontalLcd"
-
 	-- === UI 极简 ===
 	config.enable_tab_bar = false
 	config.hide_tab_bar_if_only_one_tab = true
