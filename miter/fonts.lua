@@ -26,7 +26,8 @@ local function normal_italic_font(rules)
 		italic = true,
 		font = wezterm.font_with_fallback({
 			{ family = "Monaspace Xenon", weight = "Regular", harfbuzz_features = hb_features },
-			{ family = "LXGW WenKai Mono", weight = "Regular" },
+			-- { family = "LXGW WenKai Mono", weight = "Regular" },
+			{ family = "LXGW Neo ZhiSong", weight = "Regular" },
 		}),
 	})
 end
@@ -48,7 +49,8 @@ local function bold_italic_font(rules)
 		italic = true,
 		font = wezterm.font_with_fallback({
 			{ family = "Monaspace Xenon", weight = "Bold", harfbuzz_features = hb_features },
-			{ family = "LXGW WenKai Mono", weight = "Bold" },
+			-- { family = "LXGW WenKai Mono", weight = "Bold" },
+			{ family = "LXGW Neo ZhiSong", weight = "Bold" },
 		}),
 	})
 end
