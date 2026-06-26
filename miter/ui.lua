@@ -2,7 +2,7 @@ local M = {}
 
 function M.load(config)
 	-- === GPU/渲染优化 ===
-	config.enable_wayland = true
+	--config.enable_wayland = true
 	config.front_end = "WebGpu"
 	config.prefer_egl = true
 	config.webgpu_power_preference = "HighPerformance"

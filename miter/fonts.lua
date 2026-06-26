@@ -26,7 +26,6 @@ local function normal_italic_font(rules)
 		italic = true,
 		font = wezterm.font_with_fallback({
 			{ family = "Monaspace Xenon", weight = "Regular", harfbuzz_features = hb_features },
-			-- { family = "LXGW WenKai Mono", weight = "Regular" },
 			{ family = "LXGW Neo ZhiSong", weight = "Regular" },
 		}),
 	})
@@ -49,7 +48,6 @@ local function bold_italic_font(rules)
 		italic = true,
 		font = wezterm.font_with_fallback({
 			{ family = "Monaspace Xenon", weight = "Bold", harfbuzz_features = hb_features },
-			-- { family = "LXGW WenKai Mono", weight = "Bold" },
 			{ family = "LXGW Neo ZhiSong", weight = "Bold" },
 		}),
 	})
@@ -59,6 +57,18 @@ function M.load(config)
 	config.font_size = 10
 	config.font_shaper = "Harfbuzz"
 	config.font_rules = {}
+	config.front_end = "WebGpu"
+	config.freetype_load_flags = 'DEFAULT'
+	-- config.freetype_load_flags = 'NO_HINTING'
+	-- config.freetype_load_flags = 'NO_BITMAP'
+	-- config.freetype_load_flags = 'FORCE_AUTOHINT'
+	-- config.freetype_load_flags = 'MONOCHROME'
+    -- config.freetype_load_flags = 'NO_AUTOHINT'
+	-- config.freetype_load_target = "Normal"
+	config.freetype_load_target = 'Light'
+	-- config.freetype_load_target = "Mono"
+	-- config.freetype_load_target = "HorizontalLcd"
+	-- config.freetype_render_target = 'HorizontalLcd'
 	normal_font(config)
 	normal_italic_font(config.font_rules)
 	bold_font(config.font_rules)

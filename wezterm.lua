@@ -5,12 +5,20 @@ local themes = require("miter.themes")
 local ui = require("miter.ui")
 local fonts = require("miter.fonts")
 local keys = require("miter.keys")
-local localset = require("local")
+local target = wezterm.target_triple
+local is_windows = target:find("windows") ~= nil
+local is_linux = target:find("linux") ~= nil
+
+if is_windows then
+    config.default_domain = "WSL:Ubuntu-26.04" 
+else
+    local localset = require("local")
+    localset.load(config)
+end
 
 themes.load(config)
 ui.load(config)
 fonts.load(config)
-localset.load(config)
 keys.load(config)
 
 return config
