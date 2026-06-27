@@ -11,6 +11,8 @@ function M.load(config)
 		{ key = "v", mods = "SHIFT|ALT", action = act.PasteFrom("Clipboard") },
 		{ key = "r", mods = "SHIFT|ALT", action = act.ReloadConfiguration },
 		{ key = 't', mods = 'SHIFT|ALT', action = act.SpawnTab("CurrentPaneDomain") },
+		{ key = 'h', mods = 'ALT', action = act.ActivateTabRelative(-1) },
+		{ key = 'l', mods = 'ALT', action = act.ActivateTabRelative(1) },
 	}
 end
 

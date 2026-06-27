@@ -1,3 +1,4 @@
+local wezterm = require("wezterm")
 local M = {}
 
 function M.load(config)
@@ -33,6 +34,12 @@ function M.load(config)
 	config.cell_width = 1.0
 	config.bold_brightens_ansi_colors = false
 	config.enable_kitty_keyboard = false
+
+	-- === Tab 标题 ===
+	wezterm.on("format-tab-title", function(tab, _, _, _, _, _)
+		local tab_num = tab.tab_index + 1
+		return "Tab " .. tab_num
+	end)
 end
 
 return M
