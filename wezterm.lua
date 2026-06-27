@@ -9,8 +9,11 @@ local target = wezterm.target_triple
 local is_windows = target:find("windows") ~= nil
 local is_linux = target:find("linux") ~= nil
 
+config.mux_enable_ssh_agent = false
+
 if is_windows then
-    config.default_domain = "WSL:Ubuntu-26.04" 
+    -- config.default_domain = "WSL:Ubuntu-26.04"
+    config.default_prog = { 'powershell.exe' } 
 else
     local localset = require("local")
     localset.load(config)

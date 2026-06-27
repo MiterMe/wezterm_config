@@ -12,10 +12,10 @@ function M.load(config)
 	config.animation_fps = 120
 
 	-- === UI 极简 ===
-	config.enable_tab_bar = false
+	config.enable_tab_bar = true
 	config.hide_tab_bar_if_only_one_tab = true
 	config.enable_scroll_bar = false
-	config.use_fancy_tab_bar = false
+	config.use_fancy_tab_bar = true
 
 	-- === 滚动缓冲优化 ===
 	config.scrollback_lines = 5000

@@ -10,6 +10,7 @@ function M.load(config)
 		{ key = "p", mods = "SHIFT|CTRL", action = act.ActivateCommandPalette },
 		{ key = "v", mods = "SHIFT|ALT", action = act.PasteFrom("Clipboard") },
 		{ key = "r", mods = "SHIFT|ALT", action = act.ReloadConfiguration },
+		{ key = 't', mods = 'SHIFT|ALT', action = act.SpawnTab("CurrentPaneDomain") },
 	}
 end
 
