@@ -23,7 +23,7 @@ function M.load(config)
 	config.alternate_buffer_wheel_scroll_speed = 3
 
 	-- === 终端设置 ===
-	config.term = "wezterm"
+	config.term = "xterm-256color"
 
 	-- === 禁用不必要效果 ===
 	config.audible_bell = "Disabled"

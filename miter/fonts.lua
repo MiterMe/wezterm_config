@@ -63,7 +63,7 @@ function M.load(config)
 	-- config.freetype_load_flags = 'NO_BITMAP'
 	-- config.freetype_load_flags = 'FORCE_AUTOHINT'
 	-- config.freetype_load_flags = 'MONOCHROME'
-    -- config.freetype_load_flags = 'NO_AUTOHINT'
+  -- config.freetype_load_flags = 'NO_AUTOHINT'
 	-- config.freetype_load_target = "Normal"
 	config.freetype_load_target = 'Light'
 	-- config.freetype_load_target = "Mono"
