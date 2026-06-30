@@ -13,6 +13,8 @@ function M.load(config)
 		{ key = 't', mods = 'SHIFT|ALT', action = act.SpawnTab("CurrentPaneDomain") },
 		{ key = 'h', mods = 'ALT', action = act.ActivateTabRelative(-1) },
 		{ key = 'l', mods = 'ALT', action = act.ActivateTabRelative(1) },
+		{ key = 'LeftArrow', mods = 'ALT', action = act.ActivateTabRelative(-1) },
+		{ key = 'RightArrow', mods = 'ALT', action = act.ActivateTabRelative(1) },
 	}
 end
 
