@@ -12,7 +12,8 @@ local is_linux = target:find("linux") ~= nil
 config.mux_enable_ssh_agent = false
 
 if is_windows then
-    config.default_prog = { 'pwsh.exe' } 
+    -- config.default_prog = { 'pwsh.exe' } 
+    config.default_domain = 'WSL:Ubuntu-26.04'
 else
     local localset = require("local")
     localset.load(config)
