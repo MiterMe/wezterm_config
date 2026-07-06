@@ -21,6 +21,36 @@ function M.load(config)
 		{ key = 'j', mods = 'SHIFT|ALT', action = act.ActivatePaneDirection("Down") },
 		{ key = 'k', mods = 'SHIFT|ALT', action = act.ActivatePaneDirection("Up") },
 		{ key = 'l', mods = 'SHIFT|ALT', action = act.ActivatePaneDirection("Right") },
+		{ key = 'x', mods = 'SHIFT|ALT', action = act.ActivateCopyMode },
+	}
+
+	config.key_tables = {
+		copy_mode = {
+			{ key = 'h', mods = 'NONE', action = act.CopyMode 'MoveLeft' },
+			{ key = 'j', mods = 'NONE', action = act.CopyMode 'MoveDown' },
+			{ key = 'k', mods = 'NONE', action = act.CopyMode 'MoveUp' },
+			{ key = 'l', mods = 'NONE', action = act.CopyMode 'MoveRight' },
+			{ key = 'w', mods = 'NONE', action = act.CopyMode 'MoveForwardWord' },
+			{ key = 'b', mods = 'NONE', action = act.CopyMode 'MoveBackwardWord' },
+			{ key = 'e', mods = 'NONE', action = act.CopyMode 'MoveForwardWordEnd' },
+			{ key = '0', mods = 'NONE', action = act.CopyMode 'MoveToStartOfLine' },
+			{ key = '^', mods = 'NONE', action = act.CopyMode 'MoveToStartOfLineContent' },
+			{ key = '$', mods = 'NONE', action = act.CopyMode 'MoveToEndOfLineContent' },
+			{ key = 'v', mods = 'NONE', action = act.CopyMode { SetSelectionMode = 'Cell' } },
+			{ key = 'V', mods = 'NONE', action = act.CopyMode { SetSelectionMode = 'Line' } },
+			{ key = 'y', mods = 'NONE', action = act.Multiple { act.CopyTo 'ClipboardAndPrimarySelection', act.CopyMode 'Close' } },
+			{ key = 'Y', mods = 'NONE', action = act.Multiple { act.CopyTo 'ClipboardAndPrimarySelection', act.CopyMode 'Close' } },
+			{ key = '/', mods = 'NONE', action = act.CopyMode 'EditPattern' },
+			{ key = '?', mods = 'NONE', action = act.CopyMode 'EditPattern' },
+			{ key = 'n', mods = 'NONE', action = act.CopyMode 'NextMatch' },
+			{ key = 'N', mods = 'NONE', action = act.CopyMode 'PriorMatch' },
+			{ key = 'g', mods = 'NONE', action = act.CopyMode 'MoveToScrollbackTop' },
+			{ key = 'G', mods = 'NONE', action = act.CopyMode 'MoveToScrollbackBottom' },
+			{ key = 'Space', mods = 'NONE', action = act.CopyMode { SetSelectionMode = 'Cell' } },
+			{ key = 'Enter', mods = 'NONE', action = act.Multiple { act.CopyTo 'ClipboardAndPrimarySelection', act.CopyMode 'Close' } },
+			{ key = 'q', mods = 'NONE', action = act.CopyMode 'Close' },
+			{ key = 'Escape', mods = 'NONE', action = act.CopyMode 'Close' },
+		},
 	}
 end
 
