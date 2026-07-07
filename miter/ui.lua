@@ -35,6 +35,12 @@ function M.load(config)
 	config.bold_brightens_ansi_colors = false
 	config.enable_kitty_keyboard = false
 
+	-- === 光标核心配置 ===
+  -- config.default_cursor_style = 'BlinkingBlock'
+  -- config.cursor_blink_rate = 500
+  -- config.cursor_blink_ease_in = 'Constant'
+  -- config.cursor_blink_ease_out = 'Constant'
+
 	-- === Tab 标题 ===
 	wezterm.on("format-tab-title", function(tab, _, _, _, _, _)
 		local tab_num = tab.tab_index + 1
