@@ -24,7 +24,6 @@ function M.load(config)
 	config.alternate_buffer_wheel_scroll_speed = 3
 
 	-- === 鼠标：选择即复制到系统剪贴板（对应 tmux 的 mouse 复制）===
-	config.selection_clipboard = "Clipboard"
 	config.copy_on_select = "Clipboard"
 
 	-- === Copy 模式高亮（everforest 配色，对应 tmux mode-style）===
