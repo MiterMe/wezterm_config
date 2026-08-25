@@ -23,7 +23,8 @@ function M.load(config)
 	config.alternate_buffer_wheel_scroll_speed = 3
 
 	-- === 终端设置 ===
-	config.term = "xterm-256color"
+	-- config.term = "xterm-256color"
+	config.term = "wezterm"
 
 	-- === 禁用不必要效果 ===
 	config.audible_bell = "Disabled"
@@ -33,7 +34,7 @@ function M.load(config)
 	config.line_height = 1.0
 	config.cell_width = 1.0
 	config.bold_brightens_ansi_colors = false
-	config.enable_kitty_keyboard = false
+	config.enable_kitty_keyboard = true
 
 	-- === 光标核心配置 ===
   -- config.default_cursor_style = 'BlinkingBlock'
