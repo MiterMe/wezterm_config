@@ -24,7 +24,13 @@ function M.load(config)
 	config.alternate_buffer_wheel_scroll_speed = 3
 
 	-- === 鼠标：选择即复制到系统剪贴板（对应 tmux 的 mouse 复制）===
-	config.copy_on_select = "Clipboard"
+	-- 注：本版本 wezterm 已移除 selection_clipboard / copy_on_select 配置字段，
+	-- 选择复制改用 mouse binding 显式声明（Windows 下默认行为亦会复制）。
+	config.mouse_bindings = config.mouse_bindings or {}
+	table.insert(config.mouse_bindings, {
+		event = { Up = { streak = 1, button = "Left" } },
+		action = wezterm.action.CopyTo("ClipboardAndPrimarySelection"),
+	})
 
 	-- === Copy 模式高亮（everforest 配色，对应 tmux mode-style）===
 	config.colors = {
