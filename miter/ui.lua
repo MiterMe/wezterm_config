@@ -19,8 +19,23 @@ function M.load(config)
 	config.use_fancy_tab_bar = true
 
 	-- === 滚动缓冲优化 ===
-	config.scrollback_lines = 5000
+	-- 10000 对应 tmux 的 history-limit 10000
+	config.scrollback_lines = 10000
 	config.alternate_buffer_wheel_scroll_speed = 3
+
+	-- === 鼠标：选择即复制到系统剪贴板（对应 tmux 的 mouse 复制）===
+	config.selection_clipboard = "Clipboard"
+	config.copy_on_select = "Clipboard"
+
+	-- === Copy 模式高亮（everforest 配色，对应 tmux mode-style）===
+	config.colors = {
+		selection_bg = "#7fbbb3", -- blue
+		selection_fg = "#293136", -- bg_dim
+		copy_mode_active_highlight_bg = { Color = "#7fbbb3" },
+		copy_mode_active_highlight_fg = { Color = "#293136" },
+		copy_mode_inactive_highlight_bg = { Color = "#5c3f4f" }, -- bg_visual
+		copy_mode_inactive_highlight_fg = { Color = "#d3c6aa" }, -- fg
+	}
 
 	-- === 终端设置 ===
 	-- config.term = "xterm-256color"
