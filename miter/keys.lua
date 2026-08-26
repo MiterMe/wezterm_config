@@ -14,17 +14,12 @@ local function split_pane(direction)
 	})
 end
 
--- 新建 tab（对应 tmux new-window）：进入 WSL 用户主目录
--- 注意：20260823 nightly 的 SpawnTab 只接受单键 SpawnTabDomain 变体，
--- 带 cwd 必须用 { SpawnCommand = { domain = "CurrentPaneDomain", cwd = ... } } 形式，
--- 不能写成 { domain = ..., cwd = ... }（双键会报 variant 错误）。
+-- 新建 tab（对应 tmux new-window）：继承当前 pane 的工作目录。
+-- 注意：20260823 nightly 的 SpawnTab 只接受单键 SpawnTabDomain 变体
+-- （CurrentPaneDomain/DefaultDomain/DomainId/DomainName），不能带 cwd；
+-- cwd 由 WSL 域的 default_cwd（/home/miter）兜底，故新 tab 落到 WSL 用户主目录。
 local function new_tab()
-	return act.SpawnTab({
-		SpawnCommand = {
-			domain = "CurrentPaneDomain",
-			cwd = WSL_HOME,
-		},
-	})
+	return act.SpawnTab("CurrentPaneDomain")
 end
 
 function M.load(config)
