@@ -14,7 +14,7 @@ function M.load(config)
 
 	-- === UI 极简 ===
 	config.enable_tab_bar = true
-	config.hide_tab_bar_if_only_one_tab = true
+	config.hide_tab_bar_if_only_one_tab = false
 	config.enable_scroll_bar = false
 	config.use_fancy_tab_bar = true
 
