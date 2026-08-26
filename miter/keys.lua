@@ -4,11 +4,16 @@ local act = wezterm.action
 local M = {}
 
 -- 切分 pane 时继承当前 pane 的工作目录（对应 tmux 的 split-window -c "#{pane_current_path}"）
+-- 注意：20260823 nightly 已移除 SplitPane 顶层 cwd 字段，cwd 须放到 command 子结构里。
+-- 省略 command.args 时会用默认程序，并继承当前 pane 的 cwd。
 local function split_pane(direction)
 	return wezterm.action_callback(function(window, pane)
 		local cwd = pane:get_current_working_dir()
 		window:perform_action(
-			act.SplitPane({ direction = direction, cwd = cwd and cwd.file_path or nil }),
+			act.SplitPane({
+				direction = direction,
+				command = { cwd = cwd and cwd.file_path or nil },
+			}),
 			pane
 		)
 	end)
