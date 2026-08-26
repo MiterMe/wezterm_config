@@ -3,43 +3,28 @@ local act = wezterm.action
 
 local M = {}
 
--- WSL 域下 pane:get_current_working_dir() 返回的是宿主 Windows 路径（如 /C:/Users/miter），
--- 直接回喂给 WSL 进程会 chdir 失败。转换成 WSL 认得的 /mnt/c/... 再作为新 pane 的 cwd。
-local function to_wsl_cwd(url)
-	if not url then
-		return nil
-	end
-	local p = url.file_path
-	local drive, rest = p:match("^/(%a):(.*)$")
-	if drive then
-		return "/mnt/" .. drive:lower() .. rest
-	end
-	return p
-end
+-- 新 pane / 新 tab 统一进入 WSL 用户主目录（而非 Windows 主目录 /mnt/c/Users/miter）
+local WSL_HOME = "/home/miter"
 
--- 切分 pane（对应 tmux split-window）：继承当前 pane 的工作目录
+-- 切分 pane（对应 tmux split-window）：进入 WSL 用户主目录
 local function split_pane(direction)
-	return wezterm.action_callback(function(window, pane)
-		local cwd = pane:get_current_working_dir()
-		window:perform_action(
-			act.SplitPane({
-				direction = direction,
-				command = { cwd = to_wsl_cwd(cwd) },
-			}),
-			pane
-		)
-	end)
+	return act.SplitPane({
+		direction = direction,
+		command = { cwd = WSL_HOME },
+	})
 end
 
--- 新建 tab（对应 tmux new-window）：继承当前 pane 的工作目录
+-- 新建 tab（对应 tmux new-window）：进入 WSL 用户主目录
+-- 注意：20260823 nightly 的 SpawnTab 只接受单键 SpawnTabDomain 变体，
+-- 带 cwd 必须用 { SpawnCommand = { domain = "CurrentPaneDomain", cwd = ... } } 形式，
+-- 不能写成 { domain = ..., cwd = ... }（双键会报 variant 错误）。
 local function new_tab()
-	return wezterm.action_callback(function(window, pane)
-		local cwd = pane:get_current_working_dir()
-		window:perform_action(
-			act.SpawnTab({ domain = "CurrentPaneDomain", cwd = to_wsl_cwd(cwd) }),
-			pane
-		)
-	end)
+	return act.SpawnTab({
+		SpawnCommand = {
+			domain = "CurrentPaneDomain",
+			cwd = WSL_HOME,
+		},
+	})
 end
 
 function M.load(config)
