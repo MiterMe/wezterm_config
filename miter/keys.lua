@@ -3,23 +3,108 @@ local act = wezterm.action
 
 local M = {}
 
--- 新 pane / 新 tab 统一进入 WSL 用户主目录（而非 Windows 主目录 /mnt/c/Users/miter）
-local WSL_HOME = "/home/miter"
-
--- 切分 pane（对应 tmux split-window）：进入 WSL 用户主目录
-local function split_pane(direction)
-	return act.SplitPane({
-		direction = direction,
-		command = { cwd = WSL_HOME },
-	})
+-- 通用：提取当前 pane 的 cwd（兼容 Url 对象与字符串）
+-- WSL 下若探测到 Windows 盘符路径（/C:/... 或 C:/...），视为不可靠的回退值，
+-- 直接丢弃以触发 default_cwd 兜底，避免错误落到 /mnt/c/Users/miter
+local function normalize_cwd_for_wsl(cwd)
+	if not cwd or cwd == "" then
+		return nil
+	end
+	cwd = cwd:gsub("\\", "/")
+	-- 任何含盘符的路径均视为 Windows 形态，丢弃
+	if cwd:match("^/([A-Za-z]):/") or cwd:match("^/([A-Za-z]):/?$") or cwd:match("^([A-Za-z]):/") or cwd:match("^([A-Za-z]):/?$") then
+		return nil
+	end
+	if cwd:find(":") then
+		return nil
+	end
+	if cwd:sub(1, 1) ~= "/" then
+		return nil
+	end
+	return cwd
 end
 
--- 新建 tab（对应 tmux new-window）：继承当前 pane 的工作目录。
--- 注意：20260823 nightly 的 SpawnTab 只接受单键 SpawnTabDomain 变体
--- （CurrentPaneDomain/DefaultDomain/DomainId/DomainName），不能带 cwd；
--- cwd 由 WSL 域的 default_cwd（/home/miter）兜底，故新 tab 落到 WSL 用户主目录。
+local function get_cwd(pane)
+	local cwd_uri = pane:get_current_working_dir()
+	if not cwd_uri then
+		return nil
+	end
+	local raw = nil
+	if type(cwd_uri) == "string" then
+		local host = cwd_uri:match("^file://([^/]*)")
+		local path = cwd_uri:gsub("^file://[^/]*", "")
+		path = path:gsub("%%(%x%x)", function(hex)
+			return string.char(tonumber(hex, 16))
+		end)
+		-- wsl.localhost / wsl$ 场景：file://wsl.localhost/Ubuntu-26.04/home/miter -> /home/miter
+		if host and host:lower():find("wsl") then
+			path = path:gsub("^/[^/]+", "", 1)
+			if path == "" then
+				path = "/"
+			end
+		end
+		raw = path ~= "" and path or nil
+	elseif cwd_uri.file_path then
+		raw = cwd_uri.file_path
+		-- Url 对象在 WSL 下 file_path 已是正确 Linux 路径，无需额外处理；
+		-- 但若 host 含 wsl 且 file_path 仍带 /<distro> 前缀则同样剥离（防御性）
+		if cwd_uri.host and cwd_uri.host:lower():find("wsl") and raw then
+			-- 仅当 raw 形如 /Ubuntu-26.04/home/... 时剥离首段
+			if raw:match("^/[^/]+/home/") or raw:match("^/[^/]+/mnt/") then
+				raw = raw:gsub("^/[^/]+", "", 1)
+			end
+		end
+	else
+		-- 兜底：尝试 tostring 后按字符串处理
+		local s = tostring(cwd_uri)
+		local host = s:match("^file://([^/]*)")
+		local path = s:gsub("^file://[^/]*", "")
+		path = path:gsub("%%(%x%x)", function(hex)
+			return string.char(tonumber(hex, 16))
+		end)
+		if host and host:lower():find("wsl") then
+			path = path:gsub("^/[^/]+", "", 1)
+			if path == "" then
+				path = "/"
+			end
+		end
+		raw = path ~= "" and path or nil
+	end
+	if not raw then
+		return nil
+	end
+	return normalize_cwd_for_wsl(raw)
+end
+
+-- 切分 pane：继承触发动作所在 pane 的 cwd
+local function split_pane(direction)
+	return wezterm.action_callback(function(window, pane)
+		local cwd = get_cwd(pane)
+		local action = act.SplitPane({
+			direction = direction,
+			command = cwd and { cwd = cwd } or nil,
+		})
+		window:perform_action(action, pane)
+	end)
+end
+
+-- 新建 tab：继承触发动作所在 pane 的 cwd
 local function new_tab()
-	return act.SpawnTab("CurrentPaneDomain")
+	return wezterm.action_callback(function(window, pane)
+		local cwd = get_cwd(pane)
+		local action
+		if cwd then
+			action = act.SpawnCommandInNewTab({
+				cwd = cwd,
+				domain = "CurrentPaneDomain",
+			})
+		else
+			action = act.SpawnCommandInNewTab({
+				domain = "CurrentPaneDomain",
+			})
+		end
+		window:perform_action(action, pane)
+	end)
 end
 
 function M.load(config)
