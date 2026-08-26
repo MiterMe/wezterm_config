@@ -114,7 +114,11 @@ function M.load(config)
 		-- === 通用 ===
 		{ key = "p", mods = "SHIFT|CTRL", action = act.ActivateCommandPalette },
 		{ key = "r", mods = "SHIFT|ALT", action = act.ReloadConfiguration },
+		-- 粘贴：Clipboard 为显式复制(Ctrl+C)，PrimarySelection 为鼠标选中
+		-- 兼容 Windows / X11 / Wayland；保留 Shift+Alt+v 并补全常用 Ctrl+Shift+v
 		{ key = "v", mods = "SHIFT|ALT", action = act.PasteFrom("Clipboard") },
+		{ key = "v", mods = "CTRL|SHIFT", action = act.PasteFrom("Clipboard") },
+		{ key = "Insert", mods = "SHIFT", action = act.PasteFrom("Clipboard") },
 
 		-- === Window / Tab 操作（对应 tmux M-T / M-h / M-l）===
 		-- Alt+Shift+T 新建窗口 (tab)，继承当前目录

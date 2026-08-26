@@ -24,12 +24,29 @@ function M.load(config)
 	config.alternate_buffer_wheel_scroll_speed = 3
 
 	-- === 鼠标：选择即复制到系统剪贴板（对应 tmux 的 mouse 复制）===
-	-- 注：本版本 wezterm 已移除 selection_clipboard / copy_on_select 配置字段，
-	-- 选择复制改用 mouse binding 显式声明（Windows 下默认行为亦会复制）。
+	-- 注：旧配置无条件 CopyTo 会在“点击聚焦”（无选中）时把空字符串写入剪贴板，
+	-- 导致外部 Ctrl+C 的内容被清空。改为仅在有选中时才写入。
 	config.mouse_bindings = config.mouse_bindings or {}
 	table.insert(config.mouse_bindings, {
 		event = { Up = { streak = 1, button = "Left" } },
-		action = wezterm.action.CopyTo("ClipboardAndPrimarySelection"),
+		mods = "NONE",
+		action = wezterm.action_callback(function(window, pane)
+			local sel = window:get_selection_text_for_pane(pane)
+			if sel and sel ~= "" then
+				window:copy_to_clipboard(sel, "ClipboardAndPrimarySelection")
+			end
+		end),
+	})
+	-- Wayland/X11 下中键粘贴 PrimarySelection，右键粘贴 Clipboard（兼容外部复制）
+	table.insert(config.mouse_bindings, {
+		event = { Down = { streak = 1, button = "Middle" } },
+		mods = "NONE",
+		action = wezterm.action.PasteFrom("PrimarySelection"),
+	})
+	table.insert(config.mouse_bindings, {
+		event = { Down = { streak = 1, button = "Right" } },
+		mods = "NONE",
+		action = wezterm.action.PasteFrom("Clipboard"),
 	})
 
 	-- === Copy 模式高亮（everforest 配色，对应 tmux mode-style）===
