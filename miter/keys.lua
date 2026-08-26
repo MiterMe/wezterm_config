@@ -3,17 +3,40 @@ local act = wezterm.action
 
 local M = {}
 
--- 切分 pane 时继承当前 pane 的工作目录（对应 tmux 的 split-window -c "#{pane_current_path}"）
--- 注意：20260823 nightly 已移除 SplitPane 顶层 cwd 字段，cwd 须放到 command 子结构里。
--- 省略 command.args 时会用默认程序，并继承当前 pane 的 cwd。
+-- WSL 域下 pane:get_current_working_dir() 返回的是宿主 Windows 路径（如 /C:/Users/miter），
+-- 直接回喂给 WSL 进程会 chdir 失败。转换成 WSL 认得的 /mnt/c/... 再作为新 pane 的 cwd。
+local function to_wsl_cwd(url)
+	if not url then
+		return nil
+	end
+	local p = url.file_path
+	local drive, rest = p:match("^/(%a):(.*)$")
+	if drive then
+		return "/mnt/" .. drive:lower() .. rest
+	end
+	return p
+end
+
+-- 切分 pane（对应 tmux split-window）：继承当前 pane 的工作目录
 local function split_pane(direction)
 	return wezterm.action_callback(function(window, pane)
 		local cwd = pane:get_current_working_dir()
 		window:perform_action(
 			act.SplitPane({
 				direction = direction,
-				command = { cwd = cwd and cwd.file_path or nil },
+				command = { cwd = to_wsl_cwd(cwd) },
 			}),
+			pane
+		)
+	end)
+end
+
+-- 新建 tab（对应 tmux new-window）：继承当前 pane 的工作目录
+local function new_tab()
+	return wezterm.action_callback(function(window, pane)
+		local cwd = pane:get_current_working_dir()
+		window:perform_action(
+			act.SpawnTab({ domain = "CurrentPaneDomain", cwd = to_wsl_cwd(cwd) }),
 			pane
 		)
 	end)
@@ -29,8 +52,8 @@ function M.load(config)
 		{ key = "v", mods = "SHIFT|ALT", action = act.PasteFrom("Clipboard") },
 
 		-- === Window / Tab 操作（对应 tmux M-T / M-h / M-l）===
-		-- Alt+Shift+T 新建窗口 (tab)
-		{ key = "t", mods = "SHIFT|ALT", action = act.SpawnTab("CurrentPaneDomain") },
+		-- Alt+Shift+T 新建窗口 (tab)，继承当前目录
+		{ key = "t", mods = "SHIFT|ALT", action = new_tab() },
 		-- Alt+h 上一个窗口
 		{ key = "h", mods = "ALT", action = act.ActivateTabRelative(-1) },
 		-- Alt+l 下一个窗口
