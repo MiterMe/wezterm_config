@@ -71,7 +71,12 @@ function M.load(config)
 	config.line_height = 1.0
 	config.cell_width = 1.0
 	config.bold_brightens_ansi_colors = false
-	config.enable_kitty_keyboard = true
+	-- 关闭全局 kitty keyboard 协议：该协议会改变按键事件处理方式，
+	-- ① 拦截 Windows IME 合成事件，导致部分汉字（先/你/好/啊…）无法输入；
+	-- ② 让方向键以 CSI-u 编码发出，老 vim 不识别而原样打印（29A/29B）。
+	-- opencode 等现代 TUI 会启动时自行发 CSI ?2027h 请求 kitty keyboard，
+	-- 故关掉全局开关不影响它们，反而修好 IME 与 vim。
+	config.enable_kitty_keyboard = false
 
 	-- === 光标核心配置 ===
   -- config.default_cursor_style = 'BlinkingBlock'
