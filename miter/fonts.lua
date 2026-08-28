@@ -15,8 +15,8 @@ local hb_features = {
 
 local function normal_font(config)
 	config.font = wezterm.font_with_fallback({
-		{ family = "Monaspace Argon", weight = "Medium", harfbuzz_features = hb_features },
-		{ family = "MiSans", weight = "Medium" },
+		{ family = "Monaspace Argon", weight = "Regular", harfbuzz_features = hb_features },
+		{ family = "MiSans", weight = "Regular" },
 	})
 end
 
@@ -25,8 +25,8 @@ local function normal_italic_font(rules)
 		intensity = "Normal",
 		italic = true,
 		font = wezterm.font_with_fallback({
-			{ family = "Monaspace Xenon", weight = "Medium", harfbuzz_features = hb_features },
-			{ family = "LXGW Neo ZhiSong", weight = "Medium" },
+			{ family = "Monaspace Xenon", weight = "Regular", harfbuzz_features = hb_features },
+			{ family = "LXGW Neo ZhiSong", weight = "Regular" },
 		}),
 	})
 end
