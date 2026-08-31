@@ -84,46 +84,21 @@ function M.load(config)
   -- config.cursor_blink_ease_in = 'Constant'
   -- config.cursor_blink_ease_out = 'Constant'
 
-	-- === Tab 标题 ===
 	wezterm.on('format-tab-title', function(tab, tabs, panes, config, hover, max_width)
-  local pane = tab.active_pane
-  local osc_str = pane.title
-  local domain = pane.domain_name
+  		local pane = tab.active_pane
+  		local osc_str = pane.title
+  		local domain = pane.domain_name
+  		title = '[' .. domain .. '] ' .. osc_str
+  		return title
+		end
+	)
 
-  title = '[' .. domain .. '] ' .. osc_str
-  return title
-end)
-
-	-- === Window 标题跟随 workspace ===
-	-- 切换 workspace 时，OS 窗口标题自动变为 workspace 名称
 	wezterm.on("format-window-title", function(tab, pane, tabs, panes, config)
-		-- 优先按 window_id 精确获取该窗口所属 workspace（多窗口场景准确）
-		local workspace = nil
-		if tab and tab.window_id then
-			local ok, mux_win = pcall(wezterm.mux.get_window, tab.window_id)
-			if ok and mux_win then
-				local ok2, ws = pcall(mux_win.get_workspace, mux_win)
-				if ok2 and ws and #ws > 0 then
-					workspace = ws
-				end
-			end
+  		local domain = pane.domain_name
+			return domain
 		end
-		-- 回退到全局 active workspace
-		if not workspace or #workspace == 0 then
-			local ok, ws = pcall(wezterm.mux.get_active_workspace)
-			if ok and ws and #ws > 0 then
-				workspace = ws
-			end
-		end
-		if workspace and #workspace > 0 then
-			return workspace
-		end
-		-- 最后回退到 pane 标题，避免空标题
-		if tab and tab.active_pane and tab.active_pane.title and #tab.active_pane.title > 0 then
-			return tab.active_pane.title
-		end
-		return "wezterm"
-	end)
+	)
+	
 end
 
 return M

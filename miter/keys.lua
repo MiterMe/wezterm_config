@@ -3,33 +3,6 @@ local act = wezterm.action
 
 local M = {}
 
-local function get_cwd(pane)
-	local cwd_uri = pane:get_current_working_dir()
-	if not cwd_uri then
-		return '~'
-	end
-	return cwd_uri.file_path
-end
-
-local function split_pane(direction, config, gen_spawn_command_func)
-	return wezterm.action_callback(function(window, pane)
-		local cwd = get_cwd(pane)
-		local action = act.SplitPane({
-			direction = direction,
-			command = gen_spawn_command_func(cwd),
-		})
-		window:perform_action(action, pane)
-	end)
-end
-
-local function new_tab(config, gen_spawn_command_func)
-	return wezterm.action_callback(function(window, pane)
-		local cwd = get_cwd(pane)
-		local action = act.SpawnCommandInNewTab( gen_spawn_command_func(cwd) )
-		window:perform_action(action, pane)
-	end)
-end
-
 function M.load(config, gen_spawn_command_func)
 	config.disable_default_key_bindings = true
 
@@ -41,12 +14,13 @@ function M.load(config, gen_spawn_command_func)
 		{ key = "v", mods = "CTRL|SHIFT", action = act.PasteFrom("Clipboard") },
 		{ key = "Insert", mods = "SHIFT", action = act.PasteFrom("Clipboard") },
 
-		{ key = "t", mods = "SHIFT|ALT", action = new_tab(config, gen_spawn_command_func) },
+		{ key = "t", mods = "SHIFT|ALT", action = act.SpawnCommandInNewTab{} },
 		{ key = "h", mods = "ALT", action = act.ActivateTabRelative(-1) },
 		{ key = "l", mods = "ALT", action = act.ActivateTabRelative(1) },
 
-		{ key = "p", mods = "SHIFT|ALT", action = split_pane("Right", config, gen_spawn_command_func) },
-		{ key = "d", mods = "SHIFT|ALT", action = split_pane("Down", config, gen_spawn_command_func) },
+		{ key = "p", mods = "SHIFT|ALT", action = act.SplitHorizontal{} },
+		{ key = "d", mods = "SHIFT|ALT", action = act.SplitVertical{} },
+
 		{ key = "h", mods = "SHIFT|ALT", action = act.ActivatePaneDirection("Left") },
 		{ key = "j", mods = "SHIFT|ALT", action = act.ActivatePaneDirection("Down") },
 		{ key = "k", mods = "SHIFT|ALT", action = act.ActivatePaneDirection("Up") },
