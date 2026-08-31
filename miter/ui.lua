@@ -85,10 +85,14 @@ function M.load(config)
   -- config.cursor_blink_ease_out = 'Constant'
 
 	-- === Tab 标题 ===
-	wezterm.on("format-tab-title", function(tab, _, _, _, _, _)
-		local tab_num = tab.tab_index + 1
-		return "Tab " .. tab_num
-	end)
+	wezterm.on('format-tab-title', function(tab, tabs, panes, config, hover, max_width)
+  local pane = tab.active_pane
+  local osc_str = pane.title
+  local domain = pane.domain_name
+
+  title = '[' .. domain .. '] ' .. osc_str
+  return title
+end)
 
 	-- === Window 标题跟随 workspace ===
 	-- 切换 workspace 时，OS 窗口标题自动变为 workspace 名称
