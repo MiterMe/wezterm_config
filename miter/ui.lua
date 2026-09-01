@@ -59,10 +59,6 @@ function M.load(config)
 		copy_mode_inactive_highlight_fg = { Color = "#d3c6aa" }, -- fg
 	}
 
-	-- === 终端设置 ===
-	-- config.term = "xterm-256color"
-	config.term = "wezterm"
-
 	-- === 禁用不必要效果 ===
 	config.audible_bell = "Disabled"
 	config.visual_bell = { fade_in_duration_ms = 0, fade_out_duration_ms = 0 }
