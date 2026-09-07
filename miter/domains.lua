@@ -1,7 +1,7 @@
 local wezterm = require("wezterm")
 local M = {}
 
-function M.load(config)
+function M.load(config, gen_domain_name)
   config.ssh_backend = 'Ssh2'
 
   wezterm.on('mux-startup', function()
@@ -9,11 +9,11 @@ function M.load(config)
   end)
   config.unix_domains = {
     {
-      name = 'localhost',
+      name = gen_domain_name(),
       no_serve_automatically = true,
     }
   }
-  config.default_gui_startup_args = { 'connect', 'localhost' }
+  config.default_gui_startup_args = { 'connect', gen_domain_name() }
 
 end
 

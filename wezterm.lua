@@ -10,16 +10,24 @@ local domains = require("miter.domains")
 
 config.term = "wezterm"
 
+local gen_domain_name
 local target = wezterm.target_triple
 local is_windows = target:find("windows") ~= nil
 if is_windows then
   config.default_prog = { 'C:/Users/miter/AppData/Local/Microsoft/WindowsApps/pwsh.exe', '-NoLogo' }
 	config.term = "xterm-256color"
+  gen_domain_name = function()
+    return "windows"
+  end
+else
+  gen_domain_name = function()
+    return "unix"
+  end
 end
 
 config.mux_enable_ssh_agent = false
 
-domains.load(config)
+domains.load(config, gen_domain_name)
 themes.load(config)
 ui.load(config)
 fonts.load(config)
