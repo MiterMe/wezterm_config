@@ -1,9 +1,11 @@
 local wezterm = require("wezterm")
 local M = {}
+local gpus = wezterm.gui.enumerate_gpus()
 
 function M.load(config)
 	-- === GPU/渲染优化 ===
 	--config.enable_wayland = true
+  config.webgpu_preferred_adapter = gpus[1]
 	config.front_end = "WebGpu"
 	config.prefer_egl = true
 	config.webgpu_power_preference = "HighPerformance"

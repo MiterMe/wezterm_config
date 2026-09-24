@@ -16,7 +16,8 @@ local hb_features = {
 local function normal_font(config)
 	config.font = wezterm.font_with_fallback({
 		{ family = "Monaspace Argon", weight = "Regular", harfbuzz_features = hb_features },
-		{ family = "MiSans", weight = "Regular" },
+		-- { family = "MiSans", weight = "Regular" },
+		{ family = "PingFang SC", weight = "Regular" },
 	})
 end
 
@@ -37,7 +38,8 @@ local function bold_font(rules)
 		italic = false,
 		font = wezterm.font_with_fallback({
 			{ family = "Monaspace Argon", weight = "Bold", harfbuzz_features = hb_features },
-			{ family = "MiSans", weight = "Bold" },
+			-- { family = "MiSans", weight = "Bold" },
+			{ family = "PingFang SC", weight = "Bold" },
 		}),
 	})
 end
@@ -54,7 +56,7 @@ local function bold_italic_font(rules)
 end
 
 function M.load(config)
-	config.font_size = 10
+	config.font_size = 12
 	config.font_shaper = "Harfbuzz"
 	config.font_rules = {}
 	config.front_end = "WebGpu"

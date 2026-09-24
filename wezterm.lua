@@ -13,11 +13,18 @@ config.term = "wezterm"
 local gen_domain_name
 local target = wezterm.target_triple
 local is_windows = target:find("windows") ~= nil
+local is_macos = target:find("darwin") ~= nil
+
 if is_windows then
   config.default_prog = { 'C:/Users/miter/AppData/Local/Microsoft/WindowsApps/pwsh.exe', '-NoLogo' }
 	config.term = "xterm-256color"
   gen_domain_name = function()
     return "windows"
+  end
+elseif is_macos then
+  config.window_decorations= "INTEGRATED_BUTTONS | RESIZE"
+  gen_domain_name = function()
+    return "unix"
   end
 else
   gen_domain_name = function()
