@@ -7,6 +7,10 @@ function M.load(config, gen_spawn_command_func)
 	config.disable_default_key_bindings = true
 
 	config.keys = {
+		-- 吞掉 F19：未绑定时 WezTerm 会将其编码为非标准序列 \x1b[33~，
+		-- bash/readline 等应用解析失败会插入裸的 '~'
+		{ key = "F19", mods = "NONE", action = act.Nop },
+
 		{ key = "p", mods = "SHIFT|CTRL", action = act.ActivateCommandPalette },
 		{ key = "r", mods = "SHIFT|ALT", action = act.ReloadConfiguration },
 		

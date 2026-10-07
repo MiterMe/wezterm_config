@@ -16,7 +16,7 @@ local is_windows = target:find("windows") ~= nil
 local is_macos = target:find("darwin") ~= nil
 
 if is_windows then
-  config.default_prog = { 'C:/Users/miter/AppData/Local/Microsoft/WindowsApps/pwsh.exe', '-NoLogo' }
+  config.default_prog = { 'pwsh.exe', '-NoLogo' }
 	config.term = "xterm-256color"
   gen_domain_name = function()
     return "windows"

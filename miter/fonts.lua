@@ -56,7 +56,7 @@ local function bold_italic_font(rules)
 end
 
 function M.load(config)
-	config.font_size = 12
+	config.font_size = 14
 	config.font_shaper = "Harfbuzz"
 	config.font_rules = {}
 	config.front_end = "WebGpu"
