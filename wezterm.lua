@@ -37,7 +37,7 @@ config.mux_enable_ssh_agent = false
 domains.load(config, gen_domain_name)
 themes.load(config)
 ui.load(config)
-fonts.load(config)
+fonts.load(config, is_macos)
 keys.load(config)
 
 return config

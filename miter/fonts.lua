@@ -13,15 +13,15 @@ local hb_features = {
 	"liga=1",
 }
 
-local function normal_font(config)
+local function normal_font(config, is_macos)
+	local han_font = is_macos and { family = "PingFang SC", weight = "Regular" } or { family = "MiSans", weight = "Regular" } 
 	config.font = wezterm.font_with_fallback({
 		{ family = "Monaspace Argon", weight = "Regular", harfbuzz_features = hb_features },
-		-- { family = "MiSans", weight = "Regular" },
-		{ family = "PingFang SC", weight = "Regular" },
+		han_font
 	})
 end
 
-local function normal_italic_font(rules)
+local function normal_italic_font(rules, is_macos)
 	table.insert(rules, {
 		intensity = "Normal",
 		italic = true,
@@ -32,19 +32,19 @@ local function normal_italic_font(rules)
 	})
 end
 
-local function bold_font(rules)
+local function bold_font(rules, is_macos)
+	local han_font = is_macos and { family = "PingFang SC", weight = "Bold" } or  { family = "MiSans", weight = "Bold" }
 	table.insert(rules, {
 		intensity = "Bold",
 		italic = false,
 		font = wezterm.font_with_fallback({
 			{ family = "Monaspace Argon", weight = "Bold", harfbuzz_features = hb_features },
-			-- { family = "MiSans", weight = "Bold" },
-			{ family = "PingFang SC", weight = "Bold" },
+			han_font
 		}),
 	})
 end
 
-local function bold_italic_font(rules)
+local function bold_italic_font(rules, is_macos)
 	table.insert(rules, {
 		intensity = "Bold",
 		italic = true,
@@ -55,15 +55,15 @@ local function bold_italic_font(rules)
 	})
 end
 
-function M.load(config)
+function M.load(config, is_macos)
 	config.font_size = 14
 	config.font_shaper = "Harfbuzz"
 	config.font_rules = {}
 	config.front_end = "WebGpu"
-	normal_font(config)
-	normal_italic_font(config.font_rules)
-	bold_font(config.font_rules)
-	bold_italic_font(config.font_rules)
+	normal_font(config, is_macos)
+	normal_italic_font(config.font_rules, is_macos)
+	bold_font(config.font_rules, is_macos)
+	bold_italic_font(config.font_rules, is_macos)
 	-- config.cell_width = 1.1
 	-- config.freetype_load_flags = 'DEFAULT'
 	config.freetype_load_flags = 'NO_HINTING'
