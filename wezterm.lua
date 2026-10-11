@@ -26,6 +26,7 @@ elseif is_macos then
   config.window_decorations= "INTEGRATED_BUTTONS | RESIZE"
   config.term = "wezterm"
   domain_name = "MacOS"
+  config.default_ssh_auth_sock = wezterm.home_dir .. '/..bitwarden-ssh-agent.sock'
 else
   config.term = "wezterm"
   domain_name = "Linux"
@@ -42,7 +43,6 @@ config.unix_domains = {
 config.default_gui_startup_args = { 'connect', domain_name }
 
 wezterm.on('mux-startup', function()
-  print(default_program)
   if default_program then
     local tab, pane, window = mux.spawn_window { args = default_program, workspace = domain_name }
   else
