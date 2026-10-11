@@ -56,7 +56,11 @@ local function bold_italic_font(rules, is_macos)
 end
 
 function M.load(config, is_macos)
-	config.font_size = 14
+	if is_macos then
+		config.font_size = 14
+	else
+		config.font_size = 12
+	end
 	config.font_shaper = "Harfbuzz"
 	config.font_rules = {}
 	config.front_end = "WebGpu"
