@@ -14,10 +14,9 @@ local hb_features = {
 }
 
 local function normal_font(config, is_macos)
-	local han_font = is_macos and { family = "PingFang SC", weight = "Regular" } or { family = "MiSans", weight = "Regular" } 
 	config.font = wezterm.font_with_fallback({
 		{ family = "Monaspace Argon", weight = "Regular", harfbuzz_features = hb_features },
-		han_font
+		{ family = "MiSans", weight = "Regular" },
 	})
 end
 
@@ -33,13 +32,12 @@ local function normal_italic_font(rules, is_macos)
 end
 
 local function bold_font(rules, is_macos)
-	local han_font = is_macos and { family = "PingFang SC", weight = "Bold" } or  { family = "MiSans", weight = "Bold" }
 	table.insert(rules, {
 		intensity = "Bold",
 		italic = false,
 		font = wezterm.font_with_fallback({
 			{ family = "Monaspace Argon", weight = "Bold", harfbuzz_features = hb_features },
-			han_font
+			{ family = "MiSans", weight = "Bold" },
 		}),
 	})
 end
@@ -68,18 +66,8 @@ function M.load(config, is_macos)
 	normal_italic_font(config.font_rules, is_macos)
 	bold_font(config.font_rules, is_macos)
 	bold_italic_font(config.font_rules, is_macos)
-	-- config.cell_width = 1.1
-	-- config.freetype_load_flags = 'DEFAULT'
 	config.freetype_load_flags = 'NO_HINTING'
-	-- config.freetype_load_flags = 'NO_BITMAP'
-	-- config.freetype_load_flags = 'FORCE_AUTOHINT'
-	-- config.freetype_load_flags = 'MONOCHROME'
-  -- config.freetype_load_flags = 'NO_AUTOHINT'
 	config.freetype_load_target = "Normal"
-	-- config.freetype_load_target = 'Light'
-	-- config.freetype_load_target = "Mono"
-	-- config.freetype_load_target = "HorizontalLcd"
-	-- config.freetype_render_target = 'HorizontalLcd'
 end
 
 return M
