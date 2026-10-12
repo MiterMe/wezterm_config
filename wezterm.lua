@@ -27,7 +27,7 @@ elseif is_macos then
   config.window_decorations= "INTEGRATED_BUTTONS | RESIZE"
   config.term = "wezterm"
   domain_name = "MacOS"
-  config.default_ssh_auth_sock = wezterm.home_dir .. '/..bitwarden-ssh-agent.sock'
+  config.default_ssh_auth_sock = wezterm.home_dir .. '/.bitwarden-ssh-agent.sock'
 else
   config.term = "wezterm"
   domain_name = "Linux"
