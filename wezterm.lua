@@ -47,7 +47,7 @@ wezterm.on('mux-startup', function()
   if default_program then
     local tab, pane, window = mux.spawn_window { args = default_program, workspace = domain_name }
   else
-    local tab, pane, window = mux.spawn_window {  }
+    local tab, pane, window = mux.spawn_window { workspace = domain_name }
   end
 end)
 
