@@ -57,7 +57,7 @@ function M.load(config, is_macos)
 	if is_macos then
 		config.font_size = 14
 	else
-		config.font_size = 12
+		config.font_size = 10
 	end
 	config.font_shaper = "Harfbuzz"
 	config.font_rules = {}
@@ -66,7 +66,7 @@ function M.load(config, is_macos)
 	normal_italic_font(config.font_rules, is_macos)
 	bold_font(config.font_rules, is_macos)
 	bold_italic_font(config.font_rules, is_macos)
-	config.freetype_load_flags = 'NO_HINTING'
+	config.freetype_load_flags = "NO_HINTING"
 	config.freetype_load_target = "Normal"
 end
 
