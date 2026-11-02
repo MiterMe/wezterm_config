@@ -55,7 +55,7 @@ end
 
 function M.load(config, is_macos)
 	if is_macos then
-		config.font_size = 14
+		config.font_size = 12
 	else
 		config.font_size = 10
 	end
