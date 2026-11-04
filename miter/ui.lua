@@ -60,22 +60,29 @@ function M.load(config)
   -- config.cursor_blink_rate = 500
   -- config.cursor_blink_ease_in = 'Constant'
   -- config.cursor_blink_ease_out = 'Constant'
-
-	wezterm.on('format-tab-title', function(tab, tabs, panes, config, hover, max_width)
-  		local pane = tab.active_pane
-  		local osc_str = pane.title
-  		local domain = pane.domain_name
-  		title = '[' .. domain .. '] ' .. osc_str
-  		return title
-		end
-	)
-
-	wezterm.on("format-window-title", function(tab, pane, tabs, panes, config)
-  		local domain = pane.domain_name
-			return domain
-		end
-	)
-	
 end
+
+-- 标题回调在每次加载配置时注册，确保重载配置后仍然生效。
+wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
+	local pane = tab.active_pane
+	local osc_str = pane.title or ""
+	-- OSC 标题格式为 "$IN_USE_SHELL $PWD"，只拆分第一个空格。
+	local in_use_shell, pwd = osc_str:match("^(%S+) (.+)$")
+	local mux_pane = wezterm.mux.get_pane(pane.pane_id)
+	local window = mux_pane and mux_pane:window()
+	local workspace = window and window:get_workspace() or "?"
+	local domain = pane.domain_name or "?"
+
+	if not in_use_shell then
+		return string.format("[%s-%s] %s", domain, workspace, osc_str)
+	end
+	return string.format("[%s-%s-%s] %s", domain, workspace, in_use_shell, pwd)
+end)
+
+wezterm.on("format-window-title", function(tab, pane, tabs, panes, config)
+  		local domain = pane.domain_name
+		return domain
+	end
+)
 
 return M
