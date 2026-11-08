@@ -13,14 +13,14 @@ local hb_features = {
 	"liga=1",
 }
 
-local function normal_font(config, is_macos)
+local function normal_font(config)
 	config.font = wezterm.font_with_fallback({
 		{ family = "Monaspace Argon", weight = "Regular", harfbuzz_features = hb_features },
 		{ family = "MiSans", weight = "Regular" },
 	})
 end
 
-local function normal_italic_font(rules, is_macos)
+local function normal_italic_font(rules)
 	table.insert(rules, {
 		intensity = "Normal",
 		italic = true,
@@ -31,7 +31,7 @@ local function normal_italic_font(rules, is_macos)
 	})
 end
 
-local function bold_font(rules, is_macos)
+local function bold_font(rules)
 	table.insert(rules, {
 		intensity = "Bold",
 		italic = false,
@@ -42,7 +42,7 @@ local function bold_font(rules, is_macos)
 	})
 end
 
-local function bold_italic_font(rules, is_macos)
+local function bold_italic_font(rules)
 	table.insert(rules, {
 		intensity = "Bold",
 		italic = true,
@@ -53,19 +53,13 @@ local function bold_italic_font(rules, is_macos)
 	})
 end
 
-function M.load(config, is_macos)
-	if is_macos then
-		config.font_size = 12
-	else
-		config.font_size = 10
-	end
+function M.load(config)
 	config.font_shaper = "Harfbuzz"
 	config.font_rules = {}
-	config.front_end = "WebGpu"
-	normal_font(config, is_macos)
-	normal_italic_font(config.font_rules, is_macos)
-	bold_font(config.font_rules, is_macos)
-	bold_italic_font(config.font_rules, is_macos)
+	normal_font(config)
+	normal_italic_font(config.font_rules)
+	bold_font(config.font_rules)
+	bold_italic_font(config.font_rules)
 	config.freetype_load_flags = "NO_HINTING"
 	config.freetype_load_target = "Normal"
 end

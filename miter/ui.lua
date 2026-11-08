@@ -3,8 +3,6 @@ local M = {}
 
 function M.load(config)
 	config.front_end = "WebGpu"
-	config.webgpu_preferred_adapter = wezterm.gui.enumerate_gpus()[1]
-	config.prefer_egl = true
 	config.webgpu_power_preference = "HighPerformance"
 	config.max_fps = 120
 	config.animation_fps = 120
