@@ -13,7 +13,7 @@ function M.load(config, gen_spawn_command_func)
 
 		{ key = "p", mods = "SHIFT|CTRL", action = act.ActivateCommandPalette },
 		{ key = "r", mods = "SHIFT|ALT", action = act.ReloadConfiguration },
-		
+
 		{ key = "v", mods = "SHIFT|ALT", action = act.PasteFrom("Clipboard") },
 		{ key = "v", mods = "CTRL|SHIFT", action = act.PasteFrom("Clipboard") },
 		{ key = "Insert", mods = "SHIFT", action = act.PasteFrom("Clipboard") },
@@ -54,7 +54,6 @@ function M.load(config, gen_spawn_command_func)
 					end),
 				}),
 			},
-			{ key = "d", action = act.DetachDomain("CurrentPaneDomain") },
 			{ key = "Escape", action = "PopKeyTable" },
 		},
 
