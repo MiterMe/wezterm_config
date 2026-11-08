@@ -16,7 +16,7 @@ local default_program = nil
 if is_windows then
 	config.term = "xterm-256color"
 	domain_name = "Windows"
-	default_program = { "pwsh.exe", "--Login", "--NoLogo" }
+	default_program = { "nu", "-l" }
 	config.default_prog = default_program
 	config.default_ssh_auth_sock = "\\\\.\\pipe\\openssh-ssh-agent"
 elseif is_macos then
